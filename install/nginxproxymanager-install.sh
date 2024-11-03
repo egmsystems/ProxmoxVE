@@ -171,6 +171,7 @@ EOF
 EOF
   cat /app/config/production.json
   rm /data/database.sqlite
+  msg_info $PASSWORD
 fi
 cd /app
 $STD pnpm install
