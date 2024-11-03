@@ -207,6 +207,7 @@ msg_ok "Started Services"
 
 msg_info "Cleaning up"
 #rm -rf ../nginx-proxy-manager-*
+ls ../nginx-proxy-manager-*
 systemctl restart openresty
 $STD apt-get -y autoremove
 $STD apt-get -y autoclean
