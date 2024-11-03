@@ -201,7 +201,7 @@ systemctl enable -q --now npm
 msg_ok "Started Services"
 
 msg_info "Cleaning up"
-rm -rf ../nginx-proxy-manager-*
+#rm -rf ../nginx-proxy-manager-*
 systemctl restart openresty
 $STD apt-get -y autoremove
 $STD apt-get -y autoclean
