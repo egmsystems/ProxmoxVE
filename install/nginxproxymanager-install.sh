@@ -149,18 +149,17 @@ cp -r app-images/* /app/frontend/images
 msg_ok "Built Frontend"
 
 msg_info "Initializing Backend"
-rm -rf /app/config/default.json
+#rm -rf /app/config/default.json
 if [ ! -f /app/config/production.json ]; then
   cat <<'EOF' >/app/config/production.json
 {
   "database": {
-    "engine": "knex-native",
-    "knex": {
-      "client": "sqlite3",
-      "connection": {
-        "filename": "/data/database.sqlite"
-      }
-    }
+    "engine": "mysql",
+    "host": "192.168.0.70",
+    "name": "nginxProxyManager",
+    "user": "nginxProxyManager",
+    "password": "Gp7mf1MRru3oMGs",
+    "port": 3306
   }
 }
 EOF
