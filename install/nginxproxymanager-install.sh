@@ -151,6 +151,10 @@ msg_ok "Built Frontend"
 msg_info "Initializing Backend"
 rm -rf /app/config/default.json
 if [ ! -f /app/config/production.json ]; then
+  export DB_MYSQL_HOST=192.168.0.70
+  export DB_MYSQL_NAME=nginxProxyManager
+  export DB_MYSQL_USER=nginxProxyManager
+  export DB_MYSQL_PASSWORD=Gp7mf1MRru3oMGs
   cat <<'EOF' >/app/config/production.json
 {
   "database": {
