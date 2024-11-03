@@ -149,7 +149,7 @@ cp -r app-images/* /app/frontend/images
 msg_ok "Built Frontend"
 
 msg_info "Initializing Backend"
-#rm -rf /app/config/default.json
+rm -rf /app/config/default.json
 if [ ! -f /app/config/production.json ]; then
   cat <<'EOF' >/app/config/production.json
 {
@@ -163,6 +163,7 @@ if [ ! -f /app/config/production.json ]; then
   }
 }
 EOF
+  cat /app/config/production.json
 fi
 cd /app
 $STD pnpm install
