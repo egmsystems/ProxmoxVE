@@ -149,7 +149,7 @@ cp -r app-images/* /app/frontend/images
 msg_ok "Built Frontend"
 
 msg_info "Initializing Backend"
-#rm -rf /app/config/default.json
+rm -rf /app/config/default.json
 if [ ! -f /app/config/production.json ]; then
   cat <<'EOF' >>/root/.bashrc
 export DB_MYSQL_HOST=192.168.0.70
@@ -169,6 +169,7 @@ EOF
   }
 }
 EOF
+  cp /app/config/production.json /app/config/default.json
   cat /app/config/production.json
   #rm /data/database.sqlite
   #msg_info $PASSWORD
