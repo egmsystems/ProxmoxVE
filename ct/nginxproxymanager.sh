@@ -152,16 +152,16 @@ function update_script() {
     cat <<'EOF' >/app/config/production.json
 {
   "database": {
-    "engine": "knex-native",
-    "knex": {
-      "client": "sqlite3",
-      "connection": {
-        "filename": "/data/database.sqlite"
-      }
-    }
+    "engine": "mysql",
+    "host": "192.168.0.70",
+    "name": "nginxProxyManager",
+    "user": "nginxProxyManager",
+    "password": "",
+    "port": 3306
   }
 }
 EOF
+  cp /app/config/production.json /app/config/default.json
   fi
   cd /app
   pnpm install &>/dev/null
