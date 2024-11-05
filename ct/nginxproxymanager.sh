@@ -149,6 +149,12 @@ function update_script() {
   msg_info "Initializing Backend"
   rm -rf /app/config/default.json &>/dev/null
   if [ ! -f /app/config/production.json ]; then
+  cat <<'EOF' >>/root/.bashrc
+export DB_MYSQL_HOST=192.168.0.70
+export DB_MYSQL_NAME=nginxProxyManager
+export DB_MYSQL_USER=nginxProxyManager
+export DB_MYSQL_PASSWORD=
+EOF
     cat <<'EOF' >/app/config/production.json
 {
   "database": {
