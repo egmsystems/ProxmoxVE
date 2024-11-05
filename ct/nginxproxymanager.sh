@@ -176,7 +176,7 @@ EOF
   msg_ok "Started Services"
 
   msg_info "Cleaning up"
-  rm -rf ~/nginx-proxy-manager-*
+  #rm -rf ~/nginx-proxy-manager-*
   msg_ok "Cleaned"
 
   msg_ok "Updated Successfully"
