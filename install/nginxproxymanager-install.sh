@@ -155,11 +155,13 @@ DB_MYSQL_HOST="192.168.0.70"
 DB_MYSQL_NAME="nginxProxyManager"
 DB_MYSQL_USER="nginxProxyManager"
 DB_MYSQL_PASSWORD="Gp7mf1MRru3oMGs"
+  msg_info $DB_MYSQL_USER
+  msg_ok $DB_MYSQL_PASSWORD
   echo "
-export DB_MYSQL_HOST=${DB_MYSQL_HOST}
-export DB_MYSQL_NAME=${DB_MYSQL_NAME}
-export DB_MYSQL_USER=$DB_MYSQL_USER
-export DB_MYSQL_PASSWORD=${DB_MYSQL_PASSWORD}
+export DB_MYSQL_HOST="${DB_MYSQL_HOST}"
+export DB_MYSQL_NAME="${DB_MYSQL_NAME}"
+export DB_MYSQL_USER="${DB_MYSQL_USER}"
+export DB_MYSQL_PASSWORD="${DB_MYSQL_PASSWORD}"
 " >> /root/.bashrc
   cat <<'EOF' >/app/config/production.json
 {
@@ -176,7 +178,6 @@ EOF
   cp /app/config/production.json /app/config/default.json
   cat /app/config/production.json
   #rm /data/database.sqlite
-  #msg_info $PASSWORD
 fi
 cd /app
 $STD pnpm install
