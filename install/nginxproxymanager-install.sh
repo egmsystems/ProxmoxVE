@@ -177,7 +177,7 @@ export DB_MYSQL_PASSWORD="$DB_MYSQL_PASSWORD"
 fi
 cd /app
 $STD pnpm install
-$STD pnpm run build
+$STD npm run build
 npm start
 cat /app/config/default.json
 msg_ok "Initialized Backend"
