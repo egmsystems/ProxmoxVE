@@ -149,6 +149,7 @@ cp -r app-images/* /app/frontend/images
 msg_ok "Built Frontend"
 
 msg_info "Initializing Backend"
+cat /app/config/default.json
 rm -rf /app/config/default.json
 if [ ! -f /app/config/production.json ]; then
 DB_MYSQL_HOST=192.168.0.70
