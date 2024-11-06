@@ -161,8 +161,7 @@ export DB_MYSQL_NAME="$DB_MYSQL_NAME"
 export DB_MYSQL_USER="$DB_MYSQL_USER"
 export DB_MYSQL_PASSWORD="$DB_MYSQL_PASSWORD"
 " >> /root/.bashrc
-  echo "
-{
+  echo "{
   \"database\": {
     \"engine\": \"mysql\",
     \"host\": \"${DB_MYSQL_HOST}\",
