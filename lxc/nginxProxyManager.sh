@@ -11,9 +11,6 @@ NET0="name=eth0,bridge=vmbr0,ip=dhcp"
 TEMPLATE="local:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst"
 pct create $ID $TEMPLATE --hostname $HOSTNAME --storage $STORAGE --rootfs $ROOTFS --memory $MEMORY --swap $SWAP --net0 $NET0 --password $PASSWORD
 echo "Contenedor creado con ID $ID"
-
-apt -y update
-
 RELEASE=$(curl -s https://api.github.com/repos/NginxProxyManager/nginx-proxy-manager/releases/latest |
   grep "tag_name" |
   awk '{print substr($2, 3, length($2)-4) }')
@@ -38,15 +35,14 @@ else
   sed -i "s|\"version\": \"0.0.0\"|\"version\": \"$RELEASE\"|" frontend/package.json
 fi
 sed -i "s|https://github.com.*source=nginx-proxy-manager|egmsystems|g" frontend/js/app/ui/footer/main.ejs
-
 NGINX_CONFS=$(find "$(pwd)" -type f -name "*.conf")
 for NGINX_CONF in $NGINX_CONFS; do
   sed -i 's+include conf.d+include /etc/nginx/conf.d+g' "$NGINX_CONF"
 done
-
 sed -i "s|\"db\"|\"mariadb\"|" backend/config/default.json
 sed -i "s|\"password\": \"npm\"|\"password\": \"Gp7mf1MRru3oMGs\"|" backend/config/default.json
 sed -i "s|\"npm\"|\"nginxProxyManager\"|" backend/config/default.json
+cd ..
 
 pct console $ID
 #pct enter $ID
