@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 echo egmPCTcreate
-set containerId = 111
-set os = "debian"
-set version = "12"
-set TEMPLATE = local:vztmpl/$os-$version-standard_$version.0-1_amd64.gz
-set password = prueba12
+containerId = 111
+os = "debian"
+version = "12"
+TEMPLATE = local:vztmpl/$os-$version-standard_$version.0-1_amd64.gz
+password = prueba12
 pct create $containerId $TEMPLATE \
 --hostname nginxProxyManager \
 --storage local-lvm \
