@@ -1,6 +1,6 @@
 #!/bin/bash
 echo egmPCTcreate
-ID=101
+ID=$(pvesh get /cluster/nextid)
 PASSWORD="prueba12"
 HOSTNAME="nginxProxyManager"
 STORAGE="local-lvm"
