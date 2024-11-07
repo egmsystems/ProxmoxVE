@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$VERBOSE" = "yes" ]; then
+  STD=""
+else STD="silent"; fi
+silent() { "$@" >/dev/null 2>&1; }
 echo egmPCTcreate
 ID=$(pvesh get /cluster/nextid)
 PASSWORD="prueba12"
