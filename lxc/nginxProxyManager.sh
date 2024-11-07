@@ -1,7 +1,7 @@
 containerId = 111
 os = "debian"
 version = "12"
-TEMPLATE = local:vztmpl/$os-$version-standard_$version.0-1_amd64.>
+TEMPLATE = local:vztmpl/$os-$version-standard_$version.0-1_amd64.gz
 password = prueba12
 pct create $containerId $TEMPLATE \
 --hostname nginxProxyManager \
