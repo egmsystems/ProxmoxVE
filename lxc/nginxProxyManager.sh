@@ -1,7 +1,7 @@
 #!/bin/bash
 echo egmPCTcreate
-PASSWORD="prueba12"
 ID=100
+PASSWORD="prueba12"
 HOSTNAME="nginxProxyManager"
 STORAGE="local-lvm"
 ROOTFS="4"
@@ -48,3 +48,5 @@ sed -i "s|\"db\"|\"mariadb\"|" backend/config/default.json
 sed -i "s|\"password\": \"npm\"|\"password\": \"Gp7mf1MRru3oMGs\"|" backend/config/default.json
 sed -i "s|\"npm\"|\"nginxProxyManager\"|" backend/config/default.json
 
+pct console $ID
+#pct enter $ID
