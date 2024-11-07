@@ -1,18 +1,16 @@
-#!/usr/bin/env bash
+#!/bin/bash
 echo egmPCTcreate
-containerId = 111
-os = "debian"
-version = "12"
-TEMPLATE = local:vztmpl/$os-$version-standard_$version.0-1_amd64.gz
-password = prueba12
-pct create $containerId $TEMPLATE \
---hostname nginxProxyManager \
---storage local-lvm \
---rootfs 4 \
---memory 1024 \
---swap 512 \
---net0 name=eth0,bridge=vmbr0,ip=dhcp \
---password $password
+ID=100
+HOSTNAME="nginxProxyManager"
+STORAGE="local-lvm"
+ROOTFS="8"
+MEMORY="1024"
+SWAP="512"
+NET0="name=eth0,bridge=vmbr0,ip=dhcp"
+PASSWORD="mi_contraseña"
+TEMPLATE="local:vztmpl/debian-11-standard_11.0-1_amd64.tar.gz"
+pct create $ID $TEMPLATE --hostname $HOSTNAME --storage $STORAGE --rootfs $ROOTFS --memory $MEMORY --swap $SWAP --net0 $NET0 --password $PASSWORD
+echo "Contenedor creado con ID $ID"
 
 apt -y update
 apt -y install nginx
