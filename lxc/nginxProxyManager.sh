@@ -41,6 +41,20 @@ $STD apt-get -y install \
   git
 echo "Installed dependences"
 
+echo "Installing Python Dependencies"
+$STD apt-get install -y \
+  python3 \
+  python3-dev \
+  python3-pip \
+  python3-venv \
+  python3-cffi \
+  python3-certbot \
+  python3-certbot-dns-cloudflare
+$STD pip3 install certbot-dns-multi
+$STD python3 -m venv /opt/certbot/
+rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
+echo "Installed Python Dependencies"
+
 echo "Installing Openresty"
 wget -qO - https://openresty.org/package/pubkey.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/openresty-archive-keyring.gpg
 echo -e "deb http://openresty.org/package/debian bullseye openresty" >/etc/apt/sources.list.d/openresty.list
