@@ -127,7 +127,7 @@ export DB_MYSQL_PASSWORD="$DB_MYSQL_PASSWORD"
 }" > /app/config/production.json
   cp /app/config/production.json /app/config/default.json
   cat /app/config/production.json
-  rm /data/database.sqlite
+  rm /app/config/database.sqlite
 fi
 cd /app
 $STD pnpm install
