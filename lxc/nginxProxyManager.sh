@@ -25,9 +25,12 @@ echo "Actualizsando SO"
 $STD apt-get -y update
 echo "SO Actualizsado"
 
+echo "Installing curl"
+$STD apt-get -y install curl
+echo "Installed curl"
+
 echo "Installing Openresty"
-rm /etc/apt/trusted.gpg.d/openresty-archive-keyring.gpg
-$STD wget -qO - https://openresty.org/package/pubkey.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/openresty-archive-keyring.gpg
+wget -qO - https://openresty.org/package/pubkey.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/openresty-archive-keyring.gpg
 echo -e "deb http://openresty.org/package/debian bullseye openresty" >/etc/apt/sources.list.d/openresty.list
 $STD apt-get -y install openresty
 echo "Installed Openresty"
