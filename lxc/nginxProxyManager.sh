@@ -55,9 +55,12 @@ $STD python3 -m venv /opt/certbot/
 rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
 echo "Installed Python Dependencies"
 
+#VERSION="$(awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release)"
+
 echo "Installing Openresty"
 wget -qO - https://openresty.org/package/pubkey.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/openresty-archive-keyring.gpg
 echo -e "deb http://openresty.org/package/debian bullseye openresty" >/etc/apt/sources.list.d/openresty.list
+#$STD apt-get -y update
 $STD apt-get -y install openresty
 echo "Installed Openresty"
 
@@ -101,17 +104,16 @@ sed -i "s|\"db\"|\"mariadb\"|" backend/config/default.json
 sed -i "s|\"password\": \"npm\"|\"password\": \"Gp7mf1MRru3oMGs\"|" backend/config/default.json
 sed -i "s|\"npm\"|\"nginxProxyManager\"|" backend/config/default.json
 ln -sf /usr/bin/python3 /usr/bin/python
+ln -sf /usr/bin/certbot /opt/certbot/bin/certbot
 ln -sf /usr/local/openresty/nginx/sbin/nginx /usr/sbin/nginx
 ln -sf /usr/local/openresty/nginx/ /etc/nginx
-ln -sf /usr/bin/certbot /opt/certbot/bin/certbot
-#ln: failed to create symbolic link '/opt/certbot/bin/certbot': No such file or directory
 NGINX_CONFS=$(find "$(pwd)" -type f -name "*.conf")
 for NGINX_CONF in $NGINX_CONFS; do
   sed -i 's+include conf.d+include /etc/nginx/conf.d+g' "$NGINX_CONF"
 done
-mkdir -p /var/www/html /usr/local/openresty/nginx/logs
+mkdir -p /var/www/html /etc/nginx/logs
 cp -r docker/rootfs/var/www/html/* /var/www/html/
-cp -r docker/rootfs/etc/nginx/* /usr/local/openresty/nginx/
+cp -r docker/rootfs/etc/nginx/* /etc/nginx/
 cp docker/rootfs/etc/letsencrypt.ini /etc/letsencrypt.ini
 cp docker/rootfs/etc/logrotate.d/nginx-proxy-manager /etc/logrotate.d/nginx-proxy-manager
 ln -sf /etc/nginx/nginx.conf /etc/nginx/conf/nginx.conf
