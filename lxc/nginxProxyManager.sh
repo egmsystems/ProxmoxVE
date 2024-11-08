@@ -25,6 +25,7 @@ $STD apt-get -y update
 echo "SO Actualizsado"
 
 echo "Installing Openresty"
+rm /etc/apt/trusted.gpg.d/openresty-archive-keyring.gpg
 $STD wget -qO - https://openresty.org/package/pubkey.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/openresty-archive-keyring.gpg
 echo -e "deb http://openresty.org/package/debian bullseye openresty" >/etc/apt/sources.list.d/openresty.list
 $STD apt-get -y install openresty
@@ -47,12 +48,12 @@ RELEASE=$(curl -s https://api.github.com/repos/NginxProxyManager/nginx-proxy-man
 read -r -p "Would you like to install an older version (v2.10.4)? <y/N> " prompt
 if [[ ${prompt,,} =~ ^(y|yes)$ ]]; then
   echo "Downloading Nginx Proxy Manager v2.10.4"
-  $STD wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v2.10.4 -O - | tar -xz
+  wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v2.10.4 -O - | tar -xz
   cd ./nginx-proxy-manager-2.10.4
   echo "Downloaded Nginx Proxy Manager v2.10.4"
 else
   echo "Downloading Nginx Proxy Manager v${RELEASE}"
-  $STD wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz
+  wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz
   cd ./nginx-proxy-manager-${RELEASE}
   echo "Downloaded Nginx Proxy Manager v${RELEASE}"
 fi
@@ -82,8 +83,24 @@ cp docker/rootfs/etc/letsencrypt.ini /etc/letsencrypt.ini
 cp docker/rootfs/etc/logrotate.d/nginx-proxy-manager /etc/logrotate.d/nginx-proxy-manager
 ln -sf /etc/nginx/nginx.conf /etc/nginx/conf/nginx.conf
 rm -f /etc/nginx/conf.d/dev.conf
-$STD chmod -R 777 /var/cache/nginx
-$STD chown root /tmp/nginx
+mkdir -p /tmp/nginx/body \
+  /run/nginx \
+  /data/nginx \
+  /data/custom_ssl \
+  /data/logs \
+  /data/access \
+  /data/nginx/default_host \
+  /data/nginx/default_www \
+  /data/nginx/proxy_host \
+  /data/nginx/redirection_host \
+  /data/nginx/stream \
+  /data/nginx/dead_host \
+  /data/nginx/temp \
+  /var/lib/nginx/cache/public \
+  /var/lib/nginx/cache/private \
+  /var/cache/nginx/proxy_temp
+chmod -R 777 /var/cache/nginx
+chown root /tmp/nginx
 echo resolver "$(awk 'BEGIN{ORS=" "} $1=="nameserver" {print ($2 ~ ":")? "["$2"]": $2}' /etc/resolv.conf);" >/etc/nginx/conf.d/include/resolvers.conf
 if [ ! -f /data/nginx/dummycert.pem ] || [ ! -f /data/nginx/dummykey.pem ]; then
   $STD openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -subj "/O=Nginx Proxy Manager/OU=Dummy Certificate/CN=localhost" -keyout /data/nginx/dummykey.pem -out /data/nginx/dummycert.pem &>/dev/null
