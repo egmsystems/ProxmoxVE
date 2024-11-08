@@ -26,7 +26,19 @@ $STD apt-get -y update
 echo "SO Actualizsado"
 
 echo "Installing dependences"
-$STD apt-get -y install curl gpg
+$STD apt-get -y install \
+  sudo \
+  mc \
+  curl \
+  gnupg \
+  make \
+  gcc \
+  g++ \
+  ca-certificates \
+  apache2-utils \
+  logrotate \
+  build-essential \
+  git
 echo "Installed dependences"
 
 echo "Installing Openresty"
