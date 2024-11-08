@@ -17,6 +17,7 @@ silent() { "$@" >/dev/null 2>&1; }
 pct create $ID $TEMPLATE --hostname $HOSTNAME --storage $STORAGE --rootfs $ROOTFS --memory $MEMORY --swap $SWAP --net0 $NET0 --password $PASSWORD
 echo "Contenedor creado con ID $ID"
 #pct console $ID
+pct start $ID
 pct enter $ID
 #$STD = "pct exec $ID"
 
