@@ -133,7 +133,8 @@ mkdir -p /tmp/nginx/body \
   /data/nginx/temp \
   /var/lib/nginx/cache/public \
   /var/lib/nginx/cache/private \
-  /var/cache/nginx/proxy_temp
+  /var/cache/nginx/proxy_temp \
+  /app
 chmod -R 777 /var/cache/nginx
 chown root /tmp/nginx
 echo resolver "$(awk 'BEGIN{ORS=" "} $1=="nameserver" {print ($2 ~ ":")? "["$2"]": $2}' /etc/resolv.conf);" >/etc/nginx/conf.d/include/resolvers.conf
