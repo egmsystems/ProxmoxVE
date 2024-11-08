@@ -25,9 +25,9 @@ echo "Actualizsando SO"
 $STD apt-get -y update
 echo "SO Actualizsado"
 
-echo "Installing curl"
-$STD apt-get -y install curl
-echo "Installed curl"
+echo "Installing dependences"
+$STD apt-get -y install curl gpg
+echo "Installed dependences"
 
 echo "Installing Openresty"
 wget -qO - https://openresty.org/package/pubkey.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/openresty-archive-keyring.gpg
@@ -39,6 +39,7 @@ echo "Installing Node.js"
 $STD bash <(curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh)
 $STD source ~/.bashrc
 $STD nvm install 16.20.2
+# manpath: can't set the locale; make sure $LC_* and $LANG are correct
 ln -sf /root/.nvm/versions/node/v16.20.2/bin/node /usr/bin/node
 echo "Installed Node.js"
 
@@ -74,15 +75,17 @@ sed -i "s|\"db\"|\"mariadb\"|" backend/config/default.json
 sed -i "s|\"password\": \"npm\"|\"password\": \"Gp7mf1MRru3oMGs\"|" backend/config/default.json
 sed -i "s|\"npm\"|\"nginxProxyManager\"|" backend/config/default.json
 ln -sf /usr/bin/python3 /usr/bin/python
-ln -sf /usr/bin/certbot /opt/certbot/bin/certbot
 ln -sf /usr/local/openresty/nginx/sbin/nginx /usr/sbin/nginx
 ln -sf /usr/local/openresty/nginx/ /etc/nginx
+ln -sf /usr/bin/certbot /opt/certbot/bin/certbot
+#ln: failed to create symbolic link '/opt/certbot/bin/certbot': No such file or directory
 NGINX_CONFS=$(find "$(pwd)" -type f -name "*.conf")
 for NGINX_CONF in $NGINX_CONFS; do
   sed -i 's+include conf.d+include /etc/nginx/conf.d+g' "$NGINX_CONF"
 done
+mkdir -p /var/www/html /usr/local/openresty/nginx/logs
 cp -r docker/rootfs/var/www/html/* /var/www/html/
-cp -r docker/rootfs/etc/nginx/* /etc/nginx/
+cp -r docker/rootfs/etc/nginx/* /usr/local/openresty/nginx/
 cp docker/rootfs/etc/letsencrypt.ini /etc/letsencrypt.ini
 cp docker/rootfs/etc/logrotate.d/nginx-proxy-manager /etc/logrotate.d/nginx-proxy-manager
 ln -sf /etc/nginx/nginx.conf /etc/nginx/conf/nginx.conf
