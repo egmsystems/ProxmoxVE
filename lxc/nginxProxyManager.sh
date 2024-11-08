@@ -102,7 +102,6 @@ cp -r app-images/* /app/frontend/images
 echo "Built Frontend"
 
 echo "Initializing Backend"
-cat /app/config/default.json
 rm -rf /app/config/default.json
 if [ ! -f /app/config/production.json ]; then
 DB_MYSQL_HOST=192.168.0.70
@@ -172,4 +171,5 @@ $STD apt-get -y autoremove
 $STD apt-get -y autoclean
 echo "Cleaned"
 
-exit
+shutdown -r 0
+#exit
