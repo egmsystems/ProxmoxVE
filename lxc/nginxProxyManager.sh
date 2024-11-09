@@ -1,4 +1,5 @@
 #!/bin/bash
+# bash -c "$(wget -qLO - https://raw.githubusercontent.com/egmsystems/ProxmoxVE/refs/heads/main/lxc/nginxProxyManager.sh)"
 echo "egmPCTcreate"
 ID=$(pvesh get /cluster/nextid)
 PASSWORD="prueba12"
@@ -18,7 +19,9 @@ pct create $ID $TEMPLATE --hostname $HOSTNAME --storage $STORAGE --rootfs $ROOTF
 echo "Contenedor creado con ID $ID"
 #pct console $ID
 pct start $ID
-pct enter $ID
+pct exec $ID -- bash -c "$(wget -qLO - https://raw.githubusercontent.com/egmsystems/ProxmoxVE/refs/heads/main/lxc/nginxProxyManager.sh)"
+
+exit
 #$STD = "pct exec $ID"
 
 echo "Actualizsando SO"
