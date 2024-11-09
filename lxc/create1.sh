@@ -91,6 +91,7 @@ sed -i "s|\"version\": \"0.0.0\"|\"version\": \"$RELEASE\"|" frontend/package.js
 sed -i "s|https://github.com.*source=nginx-proxy-manager|egmsystems|g" frontend/js/app/ui/footer/main.ejs
 sed -i 's+^daemon+#daemon+g' docker/rootfs/etc/nginx/nginx.conf
 sed -i "s|\"db\"|\"$DB_MYSQL_HOST\"|" backend/config/default.json
+sed -i "s|\"user\": \"npm\"|\"user\": \"$DB_MYSQL_USER\"|" backend/config/default.json
 sed -i "s|\"password\": \"npm\"|\"password\": \"$DB_MYSQL_PASSWORD\"|" backend/config/default.json
 sed -i "s|\"npm\"|\"$DB_MYSQL_USER\"|" backend/config/default.json
 cat backend/config/default.json
