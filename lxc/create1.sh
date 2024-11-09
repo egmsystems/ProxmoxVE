@@ -50,6 +50,19 @@ $STD apt-get -y update
 $STD apt-get -y install openresty
 echo "Installed Openresty"
 
+echo "Installing locale en_US.UTF-8"
+#export LANGUAGE=en_US.UTF-8
+#export LANG=en_US.UTF-8
+#export LC_ALL=en_US.UTF-8
+#locale-gen en_US.UTF-8
+echo '
+LANG="en_US.UTF-8"
+LANGUAGE="en_US.UTF-8"
+LC_ALL="en_US.UTF-8"
+' > /etc/default/locale
+#dpkg-reconfigure locales
+echo "Installed locale"
+
 echo "Installing Node.js"
 $STD bash <(curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh)
 $STD source ~/.bashrc
@@ -182,16 +195,6 @@ sed -r -i 's/^([[:space:]]*)su npm npm/\1#su npm npm/g;' /etc/logrotate.d/nginx-
 sed -i 's/include-system-site-packages = false/include-system-site-packages = true/g' /opt/certbot/pyvenv.cfg
 
 # perl: warning: Setting locale failed. perl: warning: Please check that your locale settings: LANGUAGE = (unset), LC_ALL = (unset), LANG = "en_US.UTF-8" are supported and installed on your system. perl: warning: Falling back to the standard locale ("C").
-#export LANGUAGE=en_US.UTF-8
-#export LANG=en_US.UTF-8
-#export LC_ALL=en_US.UTF-8
-#locale-gen en_US.UTF-8
-echo '
-LANG="en_US.UTF-8"
-LANGUAGE="en_US.UTF-8"
-LC_ALL="en_US.UTF-8"
-' > /etc/default/locale
-#dpkg-reconfigure locales
 $STD systemctl enable -q --now openresty
 
 $STD systemctl enable -q --now npm
