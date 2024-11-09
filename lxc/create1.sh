@@ -2,6 +2,9 @@
 # bash -c "$(wget -qLO - https://raw.githubusercontent.com/egmsystems/ProxmoxVE/refs/heads/main/lxc/nginxProxyManager.sh)"
 echo "egmPCTcreate inner"
 
+echo "apt-cacher"
+echo "Acquire::http { Proxy \"http://apt-cacher-ng-IP:3142\"; };" > /etc/apt/apt.conf.d/00aptproxy
+
 echo "Actualizsando SO"
 $STD apt-get -y update
 echo "SO Actualizsado"
@@ -69,13 +72,8 @@ cd ./nginx-proxy-manager-${RELEASE}
 echo "Downloaded Nginx Proxy Manager v${RELEASE}"
 
 echo "Setting up Enviroment"
-if [[ ${prompt,,} =~ ^(y|yes)$ ]]; then
-  sed -i "s|\"version\": \"0.0.0\"|\"version\": \"2.10.4\"|" backend/package.json
-  sed -i "s|\"version\": \"0.0.0\"|\"version\": \"2.10.4\"|" frontend/package.json
-else
-  sed -i "s|\"version\": \"0.0.0\"|\"version\": \"$RELEASE\"|" backend/package.json
-  sed -i "s|\"version\": \"0.0.0\"|\"version\": \"$RELEASE\"|" frontend/package.json
-fi
+sed -i "s|\"version\": \"0.0.0\"|\"version\": \"$RELEASE\"|" backend/package.json
+sed -i "s|\"version\": \"0.0.0\"|\"version\": \"$RELEASE\"|" frontend/package.json
 sed -i "s|https://github.com.*source=nginx-proxy-manager|egmsystems|g" frontend/js/app/ui/footer/main.ejs
 sed -i 's+^daemon+#daemon+g' docker/rootfs/etc/nginx/nginx.conf
 sed -i "s|\"db\"|\"mariadb\"|" backend/config/default.json
