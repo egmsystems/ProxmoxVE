@@ -210,4 +210,5 @@ $STD apt-get -y autoremove
 $STD apt-get -y autoclean
 echo "Cleaned"
 
+ip address
 #exit
