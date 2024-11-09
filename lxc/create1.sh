@@ -65,9 +65,9 @@ echo "Installed locale"
 
 echo "Installing Node.js"
 $STD bash <(curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh)
-$STD source ~/.bashrc
-$STD nvm install 16.20.2
+source ~/.bashrc
 # manpath: can't set the locale; make sure $LC_* and $LANG are correct
+$STD nvm install 16.20.2
 ln -sf /root/.nvm/versions/node/v16.20.2/bin/node /usr/bin/node
 echo "Installed Node.js"
 
@@ -91,6 +91,7 @@ sed -i 's+^daemon+#daemon+g' docker/rootfs/etc/nginx/nginx.conf
 sed -i "s|\"db\"|\"$DB_MYSQL_HOST\"|" backend/config/default.json
 sed -i "s|\"password\": \"npm\"|\"password\": \"$DB_MYSQL_PASSWORD\"|" backend/config/default.json
 sed -i "s|\"npm\"|\"$DB_MYSQL_USER\"|" backend/config/default.json
+cat backend/config/default.json
 ln -sf /usr/bin/python3 /usr/bin/python
 ln -sf /usr/bin/certbot /opt/certbot/bin/certbot
 ln -sf /usr/local/openresty/nginx/sbin/nginx /usr/sbin/nginx
@@ -122,14 +123,13 @@ mkdir -p /tmp/nginx/body \
   /var/lib/nginx/cache/public \
   /var/lib/nginx/cache/private \
   /var/cache/nginx/proxy_temp \
-  /app \
-  /app/frontend \
-  /app/frontend/images
+  /app/frontend/images \
+  /app/global
 chmod -R 777 /var/cache/nginx
 chown root /tmp/nginx
 echo resolver "$(awk 'BEGIN{ORS=" "} $1=="nameserver" {print ($2 ~ ":")? "["$2"]": $2}' /etc/resolv.conf);" >/etc/nginx/conf.d/include/resolvers.conf
 if [ ! -f /data/nginx/dummycert.pem ] || [ ! -f /data/nginx/dummykey.pem ]; then
-  $STD openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -subj "/O=Nginx Proxy Manager/OU=Dummy Certificate/CN=localhost" -keyout /data/nginx/dummykey.pem -out /data/nginx/dummycert.pem &>/dev/null
+  openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -subj "/O=Nginx Proxy Manager/OU=Dummy Certificate/CN=localhost" -keyout /data/nginx/dummykey.pem -out /data/nginx/dummycert.pem &>/dev/null
 fi
 cp -r backend/* /app
 cp -r global/* /app/global
