@@ -16,8 +16,8 @@ export DB_MYSQL_USER=nginxProxyManager
 export DB_MYSQL_PASSWORD=Gp7mf1MRru3oMGs
 export DB_MYSQL_NAME=nginxProxyManager
 if [ "$VERBOSE" = "yes" ]; then
-  STD=""
-else STD="silent"; fi
+  export STD=""
+else export STD="silent"; fi
 silent() { "$@" >/dev/null 2>&1; }
 echo "Creando contenedor con ID $ID"
 if [ -z "$PASSWORD" ]; then
