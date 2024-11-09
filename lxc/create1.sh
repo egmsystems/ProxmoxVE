@@ -3,7 +3,7 @@
 echo "egmPCTcreate inner"
 
 echo "apt-cacher"
-echo "Acquire::http { Proxy \"http://apt-cacher-ng-IP:3142\"; };" > /etc/apt/apt.conf.d/00aptproxy
+echo "Acquire::http { Proxy \"http://192.168.0.241:3142\"; };" > /etc/apt/apt.conf.d/00aptproxy
 
 echo "Actualizsando SO"
 $STD apt-get -y update
