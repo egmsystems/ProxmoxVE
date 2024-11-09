@@ -16,7 +16,7 @@ if [ "$VERBOSE" = "yes" ]; then
 else STD="silent"; fi
 silent() { "$@" >/dev/null 2>&1; }
 echo "Creando contenedor con ID $ID"
-if [ -z "$PASSWORD" ];
+if [ -z "$PASSWORD" ]; then
   pct create $ID $TEMPLATE --hostname $HOSTNAME --storage $STORAGE --rootfs $ROOTFS --memory $MEMORY --swap $SWAP --net0 $NET0
 else
   pct create $ID $TEMPLATE --hostname $HOSTNAME --storage $STORAGE --rootfs $ROOTFS --memory $MEMORY --swap $SWAP --net0 $NET0 --password $PASSWORD
