@@ -197,10 +197,6 @@ LANGUAGE="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
 ' > /etc/default/locale
 #dpkg-reconfigure locales
-shutdown 0
-exit
-pct start $ID
-pct enter $ID
 $STD systemctl enable -q --now openresty
 
 $STD systemctl enable -q --now npm
