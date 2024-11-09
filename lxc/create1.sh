@@ -65,7 +65,6 @@ echo "Installed pnpm"
 RELEASE=$(curl -s https://api.github.com/repos/NginxProxyManager/nginx-proxy-manager/releases/latest |
   grep "tag_name" |
   awk '{print substr($2, 3, length($2)-4) }')
-read -r -p "Would you like to install an older version (v2.10.4)? <y/N> " prompt
 echo "Downloading Nginx Proxy Manager v${RELEASE}"
 wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz
 cd ./nginx-proxy-manager-${RELEASE}
