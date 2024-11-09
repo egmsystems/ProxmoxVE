@@ -15,7 +15,7 @@ if [ "$VERBOSE" = "yes" ]; then
   STD=""
 else STD="silent"; fi
 silent() { "$@" >/dev/null 2>&1; }
-if [ "$PASSWORD" = "" ]; then
+if [ -z "$PASSWORD" ];
   pct create $ID $TEMPLATE --hostname $HOSTNAME --storage $STORAGE --rootfs $ROOTFS --memory $MEMORY --swap $SWAP --net0 $NET0
 else
   pct create $ID $TEMPLATE --hostname $HOSTNAME --storage $STORAGE --rootfs $ROOTFS --memory $MEMORY --swap $SWAP --net0 $NET0 --password $PASSWORD
