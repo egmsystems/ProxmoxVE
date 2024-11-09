@@ -36,12 +36,14 @@ $STD python3 -m venv /opt/certbot/
 rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
 echo "Installed Python Dependencies"
 
-#VERSION="$(awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release)"
+echo "¿"
+VERSION="$(awk -F'=' '/^VERSION_CODENAME=/{ print $NF }' /etc/os-release)"
+echo "$VERSION?"
 
 echo "Installing Openresty"
 wget -qO - https://openresty.org/package/pubkey.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/openresty-archive-keyring.gpg
 echo -e "deb http://openresty.org/package/debian bullseye openresty" >/etc/apt/sources.list.d/openresty.list
-#$STD apt-get -y update
+$STD apt-get -y update
 $STD apt-get -y install openresty
 echo "Installed Openresty"
 
@@ -61,17 +63,11 @@ RELEASE=$(curl -s https://api.github.com/repos/NginxProxyManager/nginx-proxy-man
   grep "tag_name" |
   awk '{print substr($2, 3, length($2)-4) }')
 read -r -p "Would you like to install an older version (v2.10.4)? <y/N> " prompt
-if [[ ${prompt,,} =~ ^(y|yes)$ ]]; then
-  echo "Downloading Nginx Proxy Manager v2.10.4"
-  wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v2.10.4 -O - | tar -xz
-  cd ./nginx-proxy-manager-2.10.4
-  echo "Downloaded Nginx Proxy Manager v2.10.4"
-else
-  echo "Downloading Nginx Proxy Manager v${RELEASE}"
-  wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz
-  cd ./nginx-proxy-manager-${RELEASE}
-  echo "Downloaded Nginx Proxy Manager v${RELEASE}"
-fi
+echo "Downloading Nginx Proxy Manager v${RELEASE}"
+wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz
+cd ./nginx-proxy-manager-${RELEASE}
+echo "Downloaded Nginx Proxy Manager v${RELEASE}"
+
 echo "Setting up Enviroment"
 if [[ ${prompt,,} =~ ^(y|yes)$ ]]; then
   sed -i "s|\"version\": \"0.0.0\"|\"version\": \"2.10.4\"|" backend/package.json
