@@ -211,5 +211,6 @@ $STD apt-get -y autoremove
 $STD apt-get -y autoclean
 echo "Cleaned"
 
+curl "http://$(hostname -I)"
 echo "http://$(hostname -I)"
 #exit
