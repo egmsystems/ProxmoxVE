@@ -2,8 +2,10 @@
 # bash -c "$(wget -qLO - https://raw.githubusercontent.com/egmsystems/ProxmoxVE/refs/heads/main/lxc/nginxProxyManager.sh)"
 echo "egmPCTcreate inner"
 
-echo "apt-cacher"
+echo "Configurando apt-cacher"
 echo $aptproxy > /etc/apt/apt.conf.d/00aptproxy
+cat /etc/apt/apt.conf.d/00aptproxy
+echo "apt-cacher Configurado"
 
 echo "Actualizsando SO"
 $STD apt-get -y update
