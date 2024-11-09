@@ -3,7 +3,7 @@
 echo "egmPCTcreate inner"
 
 echo "apt-cacher"
-echo "Acquire::http { Proxy \"http://192.168.0.241:3142\"; };" > /etc/apt/apt.conf.d/00aptproxy
+echo $aptproxy > /etc/apt/apt.conf.d/00aptproxy
 
 echo "Actualizsando SO"
 $STD apt-get -y update
@@ -75,9 +75,9 @@ sed -i "s|\"version\": \"0.0.0\"|\"version\": \"$RELEASE\"|" backend/package.jso
 sed -i "s|\"version\": \"0.0.0\"|\"version\": \"$RELEASE\"|" frontend/package.json
 sed -i "s|https://github.com.*source=nginx-proxy-manager|egmsystems|g" frontend/js/app/ui/footer/main.ejs
 sed -i 's+^daemon+#daemon+g' docker/rootfs/etc/nginx/nginx.conf
-sed -i "s|\"db\"|\"mariadb\"|" backend/config/default.json
-sed -i "s|\"password\": \"npm\"|\"password\": \"Gp7mf1MRru3oMGs\"|" backend/config/default.json
-sed -i "s|\"npm\"|\"nginxProxyManager\"|" backend/config/default.json
+sed -i "s|\"db\"|\"$DB_MYSQL_HOST\"|" backend/config/default.json
+sed -i "s|\"password\": \"npm\"|\"password\": \"$DB_MYSQL_PASSWORD\"|" backend/config/default.json
+sed -i "s|\"npm\"|\"$DB_MYSQL_USER\"|" backend/config/default.json
 ln -sf /usr/bin/python3 /usr/bin/python
 ln -sf /usr/bin/certbot /opt/certbot/bin/certbot
 ln -sf /usr/local/openresty/nginx/sbin/nginx /usr/sbin/nginx
@@ -132,27 +132,22 @@ cp -r app-images/* /app/frontend/images
 echo "Built Frontend"
 
 echo "Initializing Backend"
-rm -rf /app/config/default.json
 if [ ! -f /app/config/production.json ]; then
-  DB_MYSQL_HOST=192.168.0.70
-  DB_MYSQL_NAME=nginxProxyManager
-  DB_MYSQL_USER=nginxProxyManager
-  DB_MYSQL_PASSWORD=Gp7mf1MRru3oMGs
   echo "
 export DB_MYSQL_HOST=$DB_MYSQL_HOST
-export DB_MYSQL_NAME="$DB_MYSQL_NAME"
-export DB_MYSQL_USER="$DB_MYSQL_USER"
+export DB_MYSQL_USER=$DB_MYSQL_USER
 export DB_MYSQL_PASSWORD="$DB_MYSQL_PASSWORD"
+export DB_MYSQL_NAME=$DB_MYSQL_NAME
 " >> /root/.bashrc
   cat /root/.bashrc
   echo "{
   \"database\": {
     \"engine\": \"mysql\",
     \"host\": \"${DB_MYSQL_HOST}\",
-    \"name\": \"${DB_MYSQL_NAME}\",
+    \"port\": 3306,
     \"user\": \"${DB_MYSQL_USER}\",
     \"password\": \"${DB_MYSQL_PASSWORD}\",
-    \"port\": 3306
+    \"name\": \"${DB_MYSQL_NAME}\"
   }
 }" > /app/config/production.json
   cat /app/config/production.json
