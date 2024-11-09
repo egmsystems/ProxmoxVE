@@ -210,5 +210,4 @@ $STD apt-get -y autoremove
 $STD apt-get -y autoclean
 echo "Cleaned"
 
-shutdown -r 0
 #exit
