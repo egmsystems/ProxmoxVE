@@ -100,6 +100,7 @@ else
   sed -i "s|\"version\": \"0.0.0\"|\"version\": \"$RELEASE\"|" frontend/package.json
 fi
 sed -i "s|https://github.com.*source=nginx-proxy-manager|egmsystems|g" frontend/js/app/ui/footer/main.ejs
+sed -i 's+^daemon+#daemon+g' docker/rootfs/etc/nginx/nginx.conf
 sed -i "s|\"db\"|\"mariadb\"|" backend/config/default.json
 sed -i "s|\"password\": \"npm\"|\"password\": \"Gp7mf1MRru3oMGs\"|" backend/config/default.json
 sed -i "s|\"npm\"|\"nginxProxyManager\"|" backend/config/default.json
@@ -212,6 +213,7 @@ echo "Starting Services"
 sed -i 's/user npm/user root/g; s/^pid/#pid/g' /usr/local/openresty/nginx/conf/nginx.conf
 sed -r -i 's/^([[:space:]]*)su npm npm/\1#su npm npm/g;' /etc/logrotate.d/nginx-proxy-manager
 sed -i 's/include-system-site-packages = false/include-system-site-packages = true/g' /opt/certbot/pyvenv.cfg
+
 # perl: warning: Setting locale failed. perl: warning: Please check that your locale settings: LANGUAGE = (unset), LC_ALL = (unset), LANG = "en_US.UTF-8" are supported and installed on your system. perl: warning: Falling back to the standard locale ("C").
 #export LANGUAGE=en_US.UTF-8
 #export LANG=en_US.UTF-8
@@ -223,9 +225,12 @@ LANGUAGE="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
 ' > /etc/default/locale
 #dpkg-reconfigure locales
+shutdown 0
 exit
+pct start $ID
 pct enter $ID
 $STD systemctl enable -q --now openresty
+
 $STD systemctl enable -q --now npm
 echo "Started Services"
 
