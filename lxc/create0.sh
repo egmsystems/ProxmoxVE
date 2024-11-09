@@ -15,12 +15,12 @@ if [ "$VERBOSE" = "yes" ]; then
   STD=""
 else STD="silent"; fi
 silent() { "$@" >/dev/null 2>&1; }
+echo "Creando contenedor con ID $ID"
 if [ -z "$PASSWORD" ];
   pct create $ID $TEMPLATE --hostname $HOSTNAME --storage $STORAGE --rootfs $ROOTFS --memory $MEMORY --swap $SWAP --net0 $NET0
 else
   pct create $ID $TEMPLATE --hostname $HOSTNAME --storage $STORAGE --rootfs $ROOTFS --memory $MEMORY --swap $SWAP --net0 $NET0 --password $PASSWORD
 fi
-echo "Contenedor creado con ID $ID"
 #pct console $ID
 pct start $ID
 pct exec $ID -- bash -c "$(wget -qLO - https://raw.githubusercontent.com/egmsystems/ProxmoxVE/refs/heads/main/lxc/create1.sh)"
