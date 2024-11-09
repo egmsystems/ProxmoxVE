@@ -29,3 +29,4 @@ fi
 pct start $ID
 aptproxy = $(cat /etc/apt/apt.conf.d/00aptproxy)
 pct exec $ID -- bash -c "$(wget -qLO - https://raw.githubusercontent.com/egmsystems/ProxmoxVE/refs/heads/main/lxc/create1.sh)"
+echo "http://$(hostname)"
