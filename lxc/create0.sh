@@ -11,10 +11,10 @@ MEMORY=1024
 SWAP=512
 NET0="name=eth0,bridge=vmbr0,ip=dhcp"
 TEMPLATE="local:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst"
-DB_MYSQL_HOST="192.168.0.70"
-DB_MYSQL_USER=nginxProxyManager
-DB_MYSQL_PASSWORD=Gp7mf1MRru3oMGs
-DB_MYSQL_NAME=nginxProxyManager
+export DB_MYSQL_HOST="192.168.0.70"
+export DB_MYSQL_USER=nginxProxyManager
+export DB_MYSQL_PASSWORD=Gp7mf1MRru3oMGs
+export DB_MYSQL_NAME=nginxProxyManager
 if [ "$VERBOSE" = "yes" ]; then
   STD=""
 else STD="silent"; fi
